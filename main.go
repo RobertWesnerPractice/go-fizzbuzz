@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	for i := 0; i <= 100; i++ {
-		fmt.Println(fizzbuzz.Evaluate(i))
+	fb := fizzbuzz.New(nil)
+	for i := 1; i <= 100; i++ {
+		fmt.Println(fb.Evaluate(i))
 	}
 }

@@ -1,18 +1,30 @@
 package fizzbuzz
 
 import (
+	"sort"
 	"strconv"
 )
 
-func Evaluate(value int) string {
+type Configuration map[int]string
+
+type FizzBuzz struct {
+	config Configuration
+}
+
+func (f FizzBuzz) Evaluate(value int) string {
 	var result = ""
 
-	if value%3 == 0 {
-		result += "Fizz"
+	// make sure all keys are in ascending order, not random!
+	configKeys := make([]int, 0, len(f.config))
+	for key := range f.config {
+		configKeys = append(configKeys, key)
 	}
+	sort.Ints(configKeys)
 
-	if value%5 == 0 {
-		result += "Buzz"
+	for _, key := range configKeys {
+		if value%key == 0 {
+			result += f.config[key]
+		}
 	}
 
 	if len(result) == 0 {
@@ -20,4 +32,15 @@ func Evaluate(value int) string {
 	}
 
 	return result
+}
+
+func New(config Configuration) FizzBuzz {
+	if config == nil {
+		config = Configuration{
+			3: "Fizz",
+			5: "Buzz",
+		}
+	}
+
+	return FizzBuzz{config}
 }
